@@ -1,9 +1,35 @@
 create table encuestado(
-	encuestado_id serial primary key,
-	nombre varchar(100),
-	correo varchar(100),
-	edad smallint
+	id_encuestado serial primary key,
+	edad int not null,
+	licenciatura varchar(50) not null,
+	genero varchar(100) not null,
+	dispositivos varchar(200) not null, 
+	frec_redes_sociales int not null,
+	frec_compras_en_linea int not null,
+	frec_servicio_streaming int not null,
+	frec_videojuegos int not null
 );
+create table redes_sociales(
+	id_red_social int primary key,
+	id_encuestado int references encuestado(id_encuestado),
+	redes_uso varchar(200) not null,
+	tiempo_redes varchar(100) not null,
+	razon_uso varchar(100) not null,
+	contenido_compartido varchar(200) not null,
+	perfiles_publicos varchar(100) not null,
+	interaccion_desconocidos varchar(100) not null,
+	acceso_desconocidos varchar(100) not null,
+	herramientas_privacidad varchar(100) not null,
+	contenido_frecuente varchar(200) not null,
+	servicios_personalizados varchar(200) not null,
+	contenido_sin_vigilancia varchar(100) not null,
+	sentimientos_post_uso varchar(200) not null,
+	impacto_redes_vida varchar(200) not null,
+	uso_redes_de_ajenos varchar(300) not null,
+	comparacion_red_social varchar(200) not null,
+	comprado_linea varchar(100) not null
+)
+
 create table respuestas (
 	clave serial primary key,
 	pregunta1 varchar(200),
