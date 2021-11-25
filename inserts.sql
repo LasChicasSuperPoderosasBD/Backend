@@ -1,1 +1,0 @@
-insert into Encuestado(nombre,correo,edad) values ('Miguel','maquinterov0399@gmail.com',21);
