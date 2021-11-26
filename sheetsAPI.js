@@ -201,31 +201,33 @@ async function insert_conclusion(respuesta, table_id) {
 
 async function manipulateData(respuestas) {
   for (let i = 0; i < respuestas.length; i++) {
+    // Validación de repetición 
+
     const row = respuestas[i];
     const respuesta = row._rawData;
 
     let table_id = i + 1;
 
     // Tabla frecuencia_uso
-    await insert_frecuencia_uso(respuesta, table_id);
+    //await insert_frecuencia_uso(respuesta, table_id);
 
     // Tabla Seguridad
-    await insert_seguridad(respuesta, table_id);
+    //await insert_seguridad(respuesta, table_id);
 
     // Tabla confianza_paginas
-    await insert_confianza_paginas(respuesta, table_id);
+    //await insert_confianza_paginas(respuesta, table_id);
 
     // Tabla compras_online
-    await insert_compras_online(respuesta, table_id);
+    //await insert_compras_online(respuesta, table_id);
 
     // Tabla encuestado
-    await insert_encuestado(respuesta, table_id);
+    //await insert_encuestado(respuesta, table_id);
 
     // Tabla redes_sociales
-    await insert_redes_sociales(respuesta, table_id);
+    //await insert_redes_sociales(respuesta, table_id);
 
     // Tabla conclusion
-    await insert_conclusion(respuesta, table_id);
+    //await insert_conclusion(respuesta, table_id);
 
     console.log("------------------------------------------------------");
   }
@@ -244,6 +246,7 @@ async function insertData(query) {
 async function main() {
   respuestas = await getDataFromSheet();
   await manipulateData(respuestas);
+  pool.end();
 }
 
 main();
