@@ -8,7 +8,7 @@ const pool = new Pool({
   port: 5432,
   user: "postgres",
   password: "admin",
-  database: "prueba2",
+  database: "prueba4",
 });
 
 async function getDataFromSheet() {
@@ -85,7 +85,7 @@ async function insert_compras_online(respuesta, table_id) {
   //let co_tipo_compras = respuesta[31];
   let co_frecuencia_compras = respuesta[32];
   //let co_formas_pago = respuesta[33];
-  let co_mayor_miedo= respuesta[38];
+  let co_mayor_miedo = respuesta[38];
   let co_publicidad_personalizada = respuesta[39];
   co_values.push(table_id);
   co_values.push(table_id);
@@ -460,32 +460,35 @@ async function insert_dispositivos(respuesta, table_id) {
 }
 
 async function manipulateData(respuestas) {
-  for (let i = 0; i < respuestas.length; i++) {
+  const indexResult = await getNumberRows();
+  let index = indexResult.rows[0].count;
+  for (let i = index; i < respuestas.length; i++) {
     const row = respuestas[i];
     const respuesta = row._rawData;
-    //console.log(respuesta);
     let table_id = i + 1;
-    //await insert_frecuencia_uso(respuesta,table_id);
-    //await insert_informacion_sensible(respuesta, table_id);
-    //await insert_tipo_compras(respuesta,table_id);
-    //await insert_forma_pago(respuesta,table_id);
-    //await insert_sentimientos_post_uso(respuesta,table_id);
-    //await insert_uso_stalkeo(respuesta,table_id);
-    //await insert_contenido_compartido(respuesta,table_id);
-    //await insert_redes_uso(respuesta,table_id);
-    //await insert_dispositivos(respuesta,table_id);
-    //await insert_confianza_paginas(respuesta,table_id);
-    //await insert_encuestado(respuesta,table_id);
-    //await insert_seguridad(respuesta,table_id);
-    //await insert_conclusion(respuesta,table_id);
-    //await insert_compras_online(respuesta,table_id);
-    //await insert_redes_sociales(respuesta,table_id);
+    console.log(table_id);
+    console.log(respuesta);
+    await insert_frecuencia_uso(respuesta,table_id);
+    await insert_informacion_sensible(respuesta, table_id);
+    await insert_tipo_compras(respuesta,table_id);
+    await insert_forma_pago(respuesta,table_id);
+    await insert_sentimientos_post_uso(respuesta,table_id);
+    await insert_uso_stalkeo(respuesta,table_id);
+    await insert_contenido_compartido(respuesta,table_id);
+    await insert_redes_uso(respuesta,table_id);
+    await insert_dispositivos(respuesta,table_id);
+    await insert_confianza_paginas(respuesta,table_id);
+    await insert_encuestado(respuesta,table_id);
+    await insert_seguridad(respuesta,table_id);
+    await insert_conclusion(respuesta,table_id);
+    await insert_compras_online(respuesta,table_id);
+    await insert_redes_sociales(respuesta,table_id);
     console.log("------------------------------------------------------");
   }
 }
 
-const insertData =(query) => {
-  return new Promise((resolve,reject) => {
+const insertData = (query) => {
+  return new Promise((resolve, reject) => {
     pool.query(query, (err, res) => {
       if (err) {
         return reject(error);
@@ -493,8 +496,20 @@ const insertData =(query) => {
         return resolve(res);
       }
     });
-  })
-}
+  });
+};
+
+const getNumberRows = () => {
+  return new Promise((resolve, reject) => {
+    pool.query("select count(*) from encuestado", (err, res) => {
+      if (err) {
+        return reject(error);
+      } else {
+        return resolve(res);
+      }
+    });
+  });
+};
 
 async function main() {
   respuestas = await getDataFromSheet();
