@@ -461,7 +461,8 @@ async function insert_dispositivos(respuesta, table_id) {
 
 async function manipulateData(respuestas) {
   const indexResult = await getNumberRows();
-  let index = indexResult.rows[0].count;
+  let index = parseFloat(indexResult.rows[0].count);
+  console.log(index);
   for (let i = index; i < respuestas.length; i++) {
     const row = respuestas[i];
     const respuesta = row._rawData;
